@@ -8,6 +8,7 @@ from .serializer import GenreSerializer
 # Create your views here.
 
 
+@api_view(['GET'])
 def getGenres(request):
     genres = Genre.objects.all()
     serializer = GenreSerializer(genres, many=True)
