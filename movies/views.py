@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
 from .models import Genre, Movie
@@ -26,4 +27,23 @@ def getMovies(request):
 def getMovie(request, pk):
     movie = Movie.objects.get(_id=pk)
     serializer = MovieSerializer(movie, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def updateMovie(request, pk):
+    data = request.data
+
+    movie = Movie.objects.get(_id=pk)
+
+    movie.title = data['title']
+    movie.numberInStock = data['numberInStock']
+    movie.dailyRentalRate = data['dailyRentalRate']
+    movie.genre = Genre.objects.get(_id=data['genre'])
+
+    movie.save()
+
+    serializer = MovieSerializer(movie, many=False)
+
     return Response(serializer.data)
