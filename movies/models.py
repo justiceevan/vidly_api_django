@@ -12,7 +12,7 @@ class Genre(models.Model):
 
 
 class Movie(models.Model):
-    name = models.CharField(max_length=200, blank=True, null=True)
+    title = models.CharField(max_length=200, blank=True, null=True)
     genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, null=True)
     numberInStock = models.IntegerField(default=0, blank=True, null=True)
     dailyRentalRate = models.DecimalField(
@@ -21,4 +21,4 @@ class Movie(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
-        return self.name
+        return self.title
