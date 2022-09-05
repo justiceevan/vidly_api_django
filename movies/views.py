@@ -47,3 +47,20 @@ def updateMovie(request, pk):
     serializer = MovieSerializer(movie, many=False)
 
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createMovie(request):
+    data = request.data
+
+    movie = Movie.objects.create(
+        title=data['title'],
+        numberInStock=data['numberInStock'],
+        dailyRentalRate=data['dailyRentalRate'],
+        genre=Genre.objects.get(_id=data['genre'])
+    )
+
+    serializer = MovieSerializer(movie, many=False)
+
+    return Response(serializer.data)
