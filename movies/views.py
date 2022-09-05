@@ -64,3 +64,12 @@ def createMovie(request):
     serializer = MovieSerializer(movie, many=False)
 
     return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminUser])
+def deleteMovie(request, pk):
+    movie = Movie.objects.get(_id=pk)
+    movie.delete()
+
+    return Response('Movie Deleted')
