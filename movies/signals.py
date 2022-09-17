@@ -7,3 +7,6 @@ def updateUser(sender, instance, **kwargs):
 
     if user.email != "":
         user.username = user.email
+
+
+pre_save.connect(updateUser, sender=User)
