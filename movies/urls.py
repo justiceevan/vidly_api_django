@@ -10,4 +10,5 @@ urlpatterns = [
     path('movies/<str:pk>/delete/', views.deleteMovie, name='delete-movie'),
     path('users/login/', views.MyTokenObtainPairView.as_view(),
          name='token-obtain-pair'),
+    path('users/register/', views.registerUser, name='register-user'),
 ]
