@@ -5,6 +5,7 @@ from rest_framework_simplejwt.serializers import RefreshToken
 
 from .models import Genre, Movie
 
+
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField(read_only=True)
     _id = serializers.SerializerMethodField(read_only=True)
@@ -26,8 +27,10 @@ class UserSerializer(serializers.ModelSerializer):
             name = obj.email
         return name
 
+
 class UserSerializerWithToken(UserSerializer):
     token = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = User
         fields = ['_id', 'username', 'email', 'name', 'isAdmin', 'token']
@@ -36,6 +39,7 @@ class UserSerializerWithToken(UserSerializer):
         token = RefreshToken.for_user(obj)
         return str(token.access_token)
 
+
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
@@ -43,6 +47,12 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
+    genre = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Movie
         fields = '__all__'
+
+    def get_genre(self, obj):
+        genre = Genre.objects.get(_id=obj.genre._id)
+        return GenreSerializer(genre, many=False).data
