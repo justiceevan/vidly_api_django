@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'vidly-movies'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2135C12F2D114136841881DB61B65984 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2AA9B561273146C69C7378B03A6609DB }}
